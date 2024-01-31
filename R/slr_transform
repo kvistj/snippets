@@ -1,0 +1,35 @@
+#Assumes estimated number of releases follows and inverse relationship with the SLR (1/1+x)
+#Author: Jake T. Kvistad, Ph.D.
+
+# data is a data frame 
+# x is a vector of either catch or releases. 
+# x can also be a subset of total catch or releases (e.g., marked, unmarked, or unknown components)
+# z is a vector of sublegal to legal ratios 
+# y is a vector of either estimated legal or sublegal catch or release
+slr_transform <- function(data, x, z, cat){
+  if(cat %in% c('Legal', 'legal', 'L') | is.null(cat)){
+    y <- 1/(1+data[[x]])*data[[z]]
+  }
+  if(cat %in% c('Sublegal', 'sublegal', 'sub-legal', 'SL')){
+    y <- 1/(1+(1/data[[x]]))*data[[z]]
+  }
+  return(y)
+}
+
+# # Just a demonstration of the SLR transform -------------------------------
+# slr_vec <- seq(from = 0.01, to = 10, by = 0.01)
+# plot((1/(1 + slr_vec))*10 ~ slr_vec,
+#      type = 'l',
+#      lwd = 2,
+#      xlab = 'SLR',
+#      ylab = 'Estimated legal releases',
+#      main = 'Effect of different SLR values on a hypothetical sample (n = 10)')
+# 
+# # Just a demonstration of the SLR transform -------------------------------
+# slr_vec <- seq(from = 0.01, to = 10, by = 0.01)
+# plot((1/(1 + (1/slr_vec)))*10 ~ slr_vec,
+#      type = 'l',
+#      lwd = 2,
+#      xlab = 'SLR',
+#      ylab = 'Estimated sublegal releases',
+#      main = 'Effect of different SLR values on a hypothetical sample (n = 10)')
