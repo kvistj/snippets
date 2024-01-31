@@ -6,6 +6,8 @@
 # x can also be a subset of total catch or releases (e.g., marked, unmarked, or unknown components)
 # z is a vector of sublegal to legal ratios 
 # y is a vector of either estimated legal or sublegal catch or release
+# cat is a user defined string specifying whether you wish to estimate legal or sublegal catch/releases
+
 slr_transform <- function(data, x, z, cat){
   if(cat %in% c('Legal', 'legal', 'L') | is.null(cat)){
     y <- 1/(1+data[[x]])*data[[z]]
